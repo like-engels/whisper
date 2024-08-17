@@ -1,9 +1,10 @@
 [package]
-name = "whisper_cli"
+name = "whisper"
 version = "0.1.0"
 edition = "2021"
 
 [dependencies]
 clap = { version = "4.5.15", features = ["derive"] }
 ratatui = "0.28.0"
-serde = "1.0.206"
+serde = { version = "1.0.206", features = ["derive"] }
+toml = "0.8.19"

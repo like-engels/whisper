@@ -1,35 +1,17 @@
-use clap::Parser;
-use whisper_growth::example_module;
-
 mod whisper_core;
-mod whisper_growth;
+mod whisper_ui;
 
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-pub struct Args {
-    #[arg(short, long)]
-    name: String,
+use whisper_ui::prelude::*;
 
-    #[arg(short, long, default_value_t = 1)]
-    count: u8,
-}
+use clap::Parser;
 
 fn main() {
-    let args = Args::parse();
-    let test = example_module::setup_example();
+    let args = whisper_ui::prelude::WhisperCommandApp::parse();
+    dbg!(&args);
 
-    let another_test = test.map(|whisper_command| {
-        return clap::Command::new(whisper_command.name.as_str()).args(
-            whisper_command.arguments.map(|argument| {
-                clap::Arg::new(argument.long.as_str())
-                    .short(argument.short.chars().next().unwrap())
-                    .long(argument.long.as_str())
-                    .value_name(argument.value_name.as_str())
-            }),
-        );
-    });
-
-    for _ in 0..args.count {
-        println!("Hello {}!", args.name)
+    match args.commands {
+        WhisperCommandRepresentable::Init { path } => {
+            whisper_ui::whisper_init_command::handle(path)
+        }
     }
 }

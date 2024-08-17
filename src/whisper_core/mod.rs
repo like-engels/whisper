@@ -1,2 +1,2 @@
-pub mod whisper_command;
-pub mod whisper_argument;
+pub mod models;
+pub mod services;
