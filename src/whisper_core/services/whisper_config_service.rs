@@ -1,23 +1,35 @@
 use std::{fs, io::Write, path::PathBuf};
 
+use crate::whisper_core::exceptions::config_file_not_found_error::ConfigFileNotFoundError;
 use crate::whisper_core::models::whisper_config::WhisperConfig;
 
-pub fn handle_path(file_path: &mut PathBuf) {
+pub fn handle_path(file_path: &PathBuf) {
     match file_path.try_exists() {
         Err(error) => {
             println!("Something went wrong {}", error.to_string())
         }
         Ok(result) => {
             if result {
-                file_path.set_file_name("whisper");
-                file_path.set_extension("toml");
-                let exists = file_path.exists();
+                let mut configuration_file_path = file_path.clone();
+                configuration_file_path.set_file_name("whisper");
+                configuration_file_path.set_extension("toml");
+                let exists = configuration_file_path.exists();
 
                 if exists {
                     println!("Configuration file already exists, skipping creation...")
                 } else {
                     println!("Configuration file doesn't exist, creating whisper.toml");
-                    create_configuration_file(file_path);
+                    match create_configuration_file(configuration_file_path) {
+                        Ok(_) => {
+                            println!("Configuration file created successfuly");
+                        }
+                        Err(error) => {
+                            println!(
+                                "Something went wrong while creating the configuration file: {}",
+                                error.to_string()
+                            )
+                        }
+                    }
                 }
             } else {
                 match file_path.to_str() {
@@ -31,34 +43,45 @@ pub fn handle_path(file_path: &mut PathBuf) {
     }
 }
 
-pub fn create_configuration_file(creation_path: &mut PathBuf) {
+pub fn load_configuration_file(
+    path: &PathBuf,
+) -> Result<WhisperConfig, Box<dyn std::error::Error>> {
+    let mut config_file_path = path.clone();
+
+    let mut config_file = PathBuf::new();
+    config_file.set_file_name("whisper");
+    config_file.set_extension("toml");
+
+    config_file_path.push(config_file);
+
+    let exists = config_file_path.try_exists()?;
+
+    if exists {
+        let file_content = fs::read_to_string(config_file_path)?;
+
+        let configuration: WhisperConfig = toml::from_str(&file_content)?;
+
+        return Ok(configuration);
+    } else {
+        let error = Box::new(ConfigFileNotFoundError::new());
+        return Err(error);
+    }
+}
+
+fn create_configuration_file(creation_path: PathBuf) -> Result<(), Box<dyn std::error::Error>> {
     let sample_config = WhisperConfig::new(
         String::from("whisper_sample"),
         String::from("example.com"),
         String::from("example.com"),
     );
 
-    let serialized_value = toml::to_string(&sample_config).unwrap();
+    let serialized_value = toml::to_string(&sample_config)?;
 
-    let mut file_handler = fs::File::create_new(creation_path).unwrap();
+    let mut file_handler = fs::File::create_new(creation_path)?;
 
-    let result = file_handler.write_all(serialized_value.as_bytes());
+    file_handler.write_all(serialized_value.as_bytes())?;
 
-    match result {
-        Err(error) => println!(
-            "Something went wrong while creating the file: {}",
-            error.to_string()
-        ),
-        Ok(_) => {
-            {
-                match (&*&mut file_handler).flush() {
-                    Ok(_) => println!("Configuration file created"),
-                    Err(error) => println!(
-                        "Something went wrong while flushing file handler: {}",
-                        error.to_string()
-                    ),
-                }
-            };
-        }
-    }
+    file_handler.flush()?;
+
+    Ok(())
 }
