@@ -22,15 +22,15 @@ pub fn handle(message: String, title: String, authorization_token: String) {
         Ok(resp) => {
             let status_code = resp.status();
 
-            if !status_code.is_success() {
+            if status_code.is_success() {
+                println!("Notification sent!");
+            } else {
                 let error_message = resp.text();
                 println!(
                     "Something went wrong with NotifyMe side: {}",
                     error_message.unwrap()
                 );
             }
-
-            println!("Notification sent!");
         }
     }
 }

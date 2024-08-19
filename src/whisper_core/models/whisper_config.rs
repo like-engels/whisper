@@ -5,10 +5,15 @@ pub struct WhisperConfig {
     pub application_name: String,
     pub documentation_url: String,
     pub homepage_url: String,
-    pub environment: Option<WhisperEnvironmentConfig>,
+    #[serde(alias = "environment")]
+    pub environment_config: Option<WhisperEnvironmentConfig>,
+    #[serde(alias = "accent")]
     pub accent_config: Option<WhisperAccentConfig>,
+    #[serde(alias = "jenkins")]
     pub jenkins_config: Option<WhisperJenkinsConfig>,
+    #[serde(alias = "doppler")]
     pub doppler_config: Option<WhisperDopplerConfig>,
+    #[serde(alias = "notifyme")]
     pub notify_me_config: Option<WhisperNotifyMeConfig>,
 }
 
@@ -18,7 +23,7 @@ impl WhisperConfig {
             application_name,
             documentation_url,
             homepage_url,
-            environment: None,
+            environment_config: None,
             accent_config: None,
             jenkins_config: None,
             doppler_config: None,
