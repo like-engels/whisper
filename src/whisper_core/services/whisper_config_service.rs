@@ -1,6 +1,6 @@
 use std::{fs, io::Write, path::PathBuf};
 
-use crate::whisper_core::exceptions::config_file_not_found_error::ConfigFileNotFoundError;
+use crate::whisper_core::exceptions::whisper_error::WhisperError;
 use crate::whisper_core::models::whisper_config::WhisperConfig;
 
 pub fn handle_path(file_path: &PathBuf) {
@@ -43,9 +43,7 @@ pub fn handle_path(file_path: &PathBuf) {
     }
 }
 
-pub fn load_configuration_file(
-    path: &PathBuf,
-) -> Result<WhisperConfig, Box<dyn std::error::Error>> {
+pub fn load_configuration_file(path: &PathBuf) -> Result<WhisperConfig, WhisperError> {
     let mut config_file_path = path.clone();
 
     let mut config_file = PathBuf::new();
@@ -63,12 +61,11 @@ pub fn load_configuration_file(
 
         return Ok(configuration);
     } else {
-        let error = Box::new(ConfigFileNotFoundError::new());
-        return Err(error);
+        return Err(WhisperError::ConfigFileNotFound);
     }
 }
 
-fn create_configuration_file(creation_path: PathBuf) -> Result<(), Box<dyn std::error::Error>> {
+fn create_configuration_file(creation_path: PathBuf) -> Result<(), WhisperError> {
     let sample_config = WhisperConfig::new(
         String::from("whisper_sample"),
         String::from("example.com"),

@@ -1,1 +1,1 @@
-pub mod config_file_not_found_error;
+pub mod whisper_error;
