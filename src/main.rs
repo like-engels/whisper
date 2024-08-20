@@ -7,11 +7,11 @@ use clap::Parser;
 
 fn main() {
     let args = whisper_ui::prelude::WhisperCommandApp::parse();
-    dbg!(&args);
 
     match args.commands {
-        WhisperCommandRepresentable::Init { path } => {
-            whisper_ui::whisper_init_command::handle(path)
+        WhisperCommandMenu::Init { path } => whisper_ui::whisper_init_command::handle(path),
+        WhisperCommandMenu::NotifyMe { message, title } => {
+            whisper_ui::whisper_notifyme_command::handle(&message, &title)
         }
     }
 }
