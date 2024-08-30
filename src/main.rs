@@ -11,7 +11,9 @@ fn main() {
     match args.commands {
         WhisperCommandMenu::Init { path } => whisper_ui::whisper_init_command::handle(path),
         WhisperCommandMenu::NotifyMe { message, title } => {
-            whisper_ui::whisper_notifyme_command::handle(&message, &title)
+            whisper_ui::whisper_init_handler::handle(|configurations| {
+                whisper_ui::whisper_notifyme_command::handle(configurations, &message, &title)
+            })
         }
     }
 }
