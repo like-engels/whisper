@@ -8,6 +8,8 @@ pub enum WhisperError {
     DE(#[from] toml::de::Error),
     #[error(transparent)]
     SER(#[from] toml::ser::Error),
+    #[error(transparent)]
+    EC(#[from] color_eyre::Report),
     #[error("A Whisper configuration file cannot be found, ensure a whisper configuration file is present in the current directory")]
     ConfigFileNotFound,
 }
