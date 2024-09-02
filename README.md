@@ -35,3 +35,9 @@ Support sheet is provided below
 | Patrol (Flutter) | Execute headless UI Tests | Not Supported ❌ | ❌ |
 | Maestro | Execute maestro tests | Not Supported ❌ | ✅ |
 | Xcodebuild | Execute Xcodebuild commands | Not Supported ❌ | ✅ |
+| Flutterfire | Execute Flutterfire setup | Not Supported ❌ | ❌ |
+| Flutterfire | Execute Flutterfire setuo override | Not Supported ❌ | ❌ |
+| TestFairy | Upload builds to TestFairy | Not Supported Yet ❌ | ✅ |
+| Netlify | Upload builds to Netlify for deployment | Not Supported ❌ | ❌ |
+| Terraform | Create Terraform project | Not Supported ❌ | ❌ |
+| Terraform | Deploy Terraform project | Not Supported ❌ | ❌ |
