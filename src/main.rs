@@ -16,8 +16,12 @@ fn main() -> Result<(), WhisperError> {
         whisper_ui::whisper_init_command::handle(path);
         return Ok(());
     }
-
-    let configurations = whisper_core::services::whisper_init_handler_service::handle()?;
+    
+    let configurations = if let Some(custom_config_path) = &args.config {
+        whisper_core::services::whisper_config_service::load_configuration_file(custom_config_path)?
+    } else {
+        whisper_core::services::whisper_init_handler_service::handle()?
+    };
 
     match args.commands {
         WhisperCommandMenu::Init { .. } => {
