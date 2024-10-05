@@ -13,7 +13,7 @@ Support sheet is provided below
 
 | Module | Feature | Support Status | Is Roadmap-Tracked? |
 |---|---|---|---|
-| Configuration | Load custom configuration file | Not Supported Yet ❌ | ✅ |
+| Configuration | Load custom configuration file | Supported ✅ | ✅ |
 | NotifyMe | Send notifications | Supported ✅ | ✅ |
 | Jenkins | Pipelines execution | Not Supported Yet ❌ | ✅ |
 | Jenkins | Groovy scripts execution | Not Supported Yet ❌ | ✅ |
