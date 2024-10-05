@@ -9,6 +9,14 @@ use std::path::PathBuf;
     long_about = None
 )]
 pub struct WhisperCommandApp {
+    #[clap(
+        short, 
+        long, value_parser, 
+        default_value=None, 
+        help="Pass custom configuration file", 
+        long_help="Pass custom whisper configuration file"
+    )]
+    pub config: Option<PathBuf>,
     #[command(subcommand)]
     pub commands: WhisperCommandMenu,
 }

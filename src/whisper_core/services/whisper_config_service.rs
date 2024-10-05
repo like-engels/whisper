@@ -44,13 +44,7 @@ pub fn handle_path(file_path: &PathBuf) {
 }
 
 pub fn load_configuration_file(path: &PathBuf) -> Result<WhisperConfig, WhisperError> {
-    let mut config_file_path = path.clone();
-
-    let mut config_file = PathBuf::new();
-    config_file.set_file_name("whisper");
-    config_file.set_extension("toml");
-
-    config_file_path.push(config_file);
+    let config_file_path = path;
 
     let exists = config_file_path.try_exists()?;
 
