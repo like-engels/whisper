@@ -15,6 +15,8 @@ pub struct WhisperConfig {
     pub doppler_config: Option<WhisperDopplerConfig>,
     #[serde(alias = "notifyme")]
     pub notify_me_config: Option<WhisperNotifyMeConfig>,
+    #[serde(alias = "testfairy")]
+    pub testfairy_config: Option<WhisperTestFairyConfig>,
 }
 
 impl WhisperConfig {
@@ -28,6 +30,7 @@ impl WhisperConfig {
             jenkins_config: None,
             doppler_config: None,
             notify_me_config: None,
+            testfairy_config: None
         }
     }
 }
@@ -58,4 +61,9 @@ pub struct WhisperDopplerConfig {
 #[derive(Deserialize, Serialize)]
 pub struct WhisperNotifyMeConfig {
     pub notify_me_token: String,
+}
+
+#[derive(Deserialize, Serialize)]
+pub struct WhisperTestFairyConfig {
+    pub testfairy_access_token: String,
 }
