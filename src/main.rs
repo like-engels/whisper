@@ -25,10 +25,13 @@ fn main() -> Result<(), WhisperError> {
 
     match args.commands {
         WhisperCommandMenu::Init { .. } => {
-            println!("You've found the lost case")
+            println!("You've found the lost case!")
         }
         WhisperCommandMenu::NotifyMe { message, title } => {
             whisper_ui::whisper_notifyme_command::handle(configurations, &message, &title)
+        }
+        WhisperCommandMenu::TestFairy { application_path } => {
+            whisper_ui::whisper_testfairy_command::handle(configurations, application_path)?;
         }
     }
 

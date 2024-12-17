@@ -41,25 +41,13 @@ pub enum WhisperCommandMenu {
         #[arg(help = "Message title", long = "title", short = 't')]
         title: String,
     },
+    #[command(
+        after_help = "Uploads an APK, IPA or ZIP file to TestFairy",
+        about = "Upload apps to TestFairy"
+    )]
+    #[command(name = "testfairy")]
+    TestFairy {
+        #[arg(help = "Path to application binary", long = "app-file", short = 'f')]
+        application_path: PathBuf,
+    },
 }
-
-/*
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-pub struct WhisperCommandApp {
-    #[command(subcommand)]
-    init: WhisperInitCommand,
-}
-
-#[derive(Subcommand, Debug)]
-pub enum WhisperInitCommand {
-    Init(OwO),
-}
-
-#[derive(Parser, Debug)]
-#[command(version, about, long_about = None)]
-pub struct OwO {
-    #[command(subcommand)]
-    init: WhisperInitSubcommand,
-}
-*/
